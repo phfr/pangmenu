@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ring HUD — VR radial menu proof of concept</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <svg id="icon-sprite" aria-hidden="true">
+    <defs>
+      <symbol id="icon-display" viewBox="0 0 24 24">
+        <rect x="2.5" y="4" width="19" height="12.5" rx="1.6"/>
+        <rect x="9.5" y="18" width="5" height="1.7" rx="0.7"/>
+        <rect x="11" y="16.5" width="2" height="2"/>
+      </symbol>
+      <symbol id="icon-graphics" viewBox="0 0 24 24">
+        <path d="M12 2c.9 4.2 3 6.4 7.2 7.3-4.2.9-6.3 3-7.2 7.2-.9-4.2-3-6.3-7.2-7.2C9 8.4 11.1 6.2 12 2z"/>
+      </symbol>
+      <symbol id="icon-sound" viewBox="0 0 24 24">
+        <path d="M4 9h3.2l5-4.2v14.4l-5-4.2H4z"/>
+        <path d="M16 8.4a5.4 5.4 0 010 7.2l-1.3-1.2a3.7 3.7 0 000-4.8z"/>
+      </symbol>
+      <symbol id="icon-controls" viewBox="0 0 24 24">
+        <rect x="2" y="8.2" width="20" height="8.2" rx="4"/>
+        <circle cx="17.3" cy="10.6" r="1.35"/>
+        <circle cx="19.6" cy="13" r="1.35"/>
+      </symbol>
+      <symbol id="icon-accessibility" viewBox="0 0 24 24">
+        <circle cx="12" cy="6.3" r="2.3"/>
+        <path d="M12 9.4c-3 0-5.2 1.7-5.2 4.2v1.1h3l1 6h2.4l1-6h3v-1.1c0-2.5-2.2-4.2-5.2-4.2z"/>
+      </symbol>
+      <symbol id="icon-network" viewBox="0 0 24 24">
+        <circle cx="12" cy="18.2" r="1.7"/>
+        <path d="M12 14.3a5.2 5.2 0 013.9 1.8l-1.7 1.6a2.9 2.9 0 00-4.4 0l-1.7-1.6a5.2 5.2 0 013.9-1.8z"/>
+        <path d="M12 9.6a9.4 9.4 0 017 3.1l-1.7 1.7a7.1 7.1 0 00-10.6 0L5 12.7a9.4 9.4 0 017-3.1z"/>
+      </symbol>
+      <symbol id="icon-privacy" viewBox="0 0 24 24">
+        <rect x="5" y="11" width="14" height="10" rx="2"/>
+        <path d="M8 11V8a4 4 0 018 0v3h-2.3V8a1.7 1.7 0 00-3.4 0v3z"/>
+      </symbol>
+      <symbol id="icon-system" viewBox="0 0 24 24">
+        <circle cx="12" cy="7" r="1.7"/>
+        <rect x="10.6" y="10.4" width="2.8" height="8.3" rx="1.4"/>
+      </symbol>
+      <symbol id="icon-list" viewBox="0 0 24 24">
+        <circle cx="4.5" cy="6.5" r="1.6"/>
+        <circle cx="4.5" cy="12" r="1.6"/>
+        <circle cx="4.5" cy="17.5" r="1.6"/>
+        <rect x="8.5" y="5.3" width="12" height="2.4" rx="1.2"/>
+        <rect x="8.5" y="10.8" width="12" height="2.4" rx="1.2"/>
+        <rect x="8.5" y="16.3" width="12" height="2.4" rx="1.2"/>
+      </symbol>
+      <symbol id="icon-type-slider" viewBox="0 0 24 24">
+        <rect x="3" y="11" width="18" height="2.2" rx="1.1"/>
+        <circle cx="15.5" cy="12.1" r="3.5"/>
+      </symbol>
+      <symbol id="icon-type-dropdown" viewBox="0 0 24 24">
+        <path d="M6 9l6 7 6-7z"/>
+      </symbol>
+      <symbol id="icon-type-toggle" viewBox="0 0 24 24">
+        <path d="M4 12.5l5 5L20 6.5l-1.8-1.8L9 14 5.8 10.8z"/>
+      </symbol>
+      <symbol id="icon-type-action" viewBox="0 0 24 24">
+        <path d="M8 5l8 7-8 7z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div id="world"></div>
+
+  <div id="panel-title">
+    <h1>RING HUD // settings proof of concept</h1>
+    <p>Radial settings menu prototype for a future VR HUD. Drag outward by angle to drill through
+      categories, dropdowns, toggles and slider arcs — each fans out near the direction you're already
+      pointing rather than spanning the full circle.</p>
+  </div>
+
+  <div id="config-panel">
+    <div class="config-row">
+      <span class="config-label">Interaction</span>
+      <div class="segmented" id="mode-toggle">
+        <button type="button" data-mode="hold">Hold</button>
+        <button type="button" data-mode="click">Click</button>
+      </div>
+    </div>
+    <p class="config-hint" id="mode-hint"></p>
+    <div class="config-row config-row-spaced">
+      <span class="config-label">List Style</span>
+      <div class="segmented" id="list-style-toggle">
+        <button type="button" data-style="radial">Radial</button>
+        <button type="button" data-style="box">Box</button>
+      </div>
+    </div>
+    <p class="config-hint">Radial fans a long list out at an angle; Box shows
+      it as a plain readable list beside the ring instead.</p>
+  </div>
+
+  <div id="reticle"></div>
+  <div id="hint"></div>
+
+  <div id="stage">
+    <svg id="ring-svg">
+      <g id="ring-root" class="opening"></g>
+    </svg>
+  </div>
+
+  <div id="state-panel">
+    <h2>Live Settings State</h2>
+    <div id="state-panel-body"></div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script src="menu-data.js"></script>
+  <script src="ring-menu.js"></script>
+</body>
+</html>
