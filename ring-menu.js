@@ -141,8 +141,10 @@
     };
   }
 
-  // Decimals shown for a slider follow its step (0.01 -> 2 decimals), so the
-  // fractional settings of the real app (opacities, scales) read correctly.
+  // Values are stepped at the precision of their step, but shown with at most
+  // two decimals (0.45, 2.5x, 1x); finer steps exist only so drags feel smooth.
+  const MAX_SHOWN_DECIMALS = 2;
+
   function sliderDecimals(item) {
     const step = item.step || 1;
     if (step >= 1) return 0;
@@ -151,8 +153,12 @@
 
   function formatSliderValue(item) {
     if (item.labels) return item.labels[Math.round(item.value) - item.min];
-    const d = sliderDecimals(item);
-    return Number(item.value).toFixed(d) + (item.unit || "");
+    const d = Math.min(MAX_SHOWN_DECIMALS, sliderDecimals(item));
+    // Fixed to at most two decimals, then trailing zeros dropped: 0.45 stays
+    // 0.45, 1.00x becomes 1x, 2.5 stays 2.5.
+    let text = Number(item.value).toFixed(d);
+    if (d > 0) text = text.replace(/\.?0+$/, "");
+    return text + (item.unit || "");
   }
 
   // Categories carry an explicit icon key (into the sprite in index.html);
