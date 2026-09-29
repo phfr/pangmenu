@@ -83,7 +83,7 @@ const RING_MENU_DATA = {
         { id: "reset_explosions", label: "Reset explosions (t)", type: "action" },
         { id: "focus_mode", label: "Focus mode (f)", type: "toggle", value: false },
         {
-          id: "relayout_settings", label: "Relayout settings", icon: "select", type: "submenu",
+          id: "relayout_settings", label: "Relayout settings", type: "submenu",
           children: [
             { id: "c_radius", label: "C radius", type: "slider", min: 0.6, max: 60, step: 0.6, value: 6, unit: "" },
             { id: "c_movement_scale", label: "C movement scale", type: "slider", min: 0.06, max: 6, step: 0.06, value: 0.6, unit: "" },
@@ -97,7 +97,7 @@ const RING_MENU_DATA = {
       id: "windows", label: "Windows", icon: "windows", color: "#b478ff", type: "submenu",
       children: [
         {
-          id: "win_subset", label: "Subset & tables", icon: "windows", type: "submenu",
+          id: "win_subset", label: "Subset & tables", type: "submenu",
           children: [
             { id: "win_subset_builder", label: "Subset Query", type: "action" },
             { id: "win_subset_list", label: "Subset List", type: "action" },
@@ -107,7 +107,7 @@ const RING_MENU_DATA = {
           ]
         },
         {
-          id: "win_charts", label: "Charts & statistics", icon: "windows", type: "submenu",
+          id: "win_charts", label: "Charts & statistics", type: "submenu",
           children: [
             { id: "win_distribution", label: "Distributions", type: "action" },
             { id: "win_upset", label: "UpSet", type: "action" },
@@ -118,7 +118,7 @@ const RING_MENU_DATA = {
           ]
         },
         {
-          id: "win_networks", label: "Network views", icon: "windows", type: "submenu",
+          id: "win_networks", label: "Network views", type: "submenu",
           children: [
             { id: "win_subset_network", label: "Subset Network", type: "action" },
             { id: "win_network_meta", label: "Network Meta", type: "action" },
@@ -127,7 +127,7 @@ const RING_MENU_DATA = {
           ]
         },
         {
-          id: "win_compute", label: "Compute", icon: "windows", type: "submenu",
+          id: "win_compute", label: "Compute", type: "submenu",
           children: [
             { id: "win_rwr", label: "RWR", type: "action" },
             { id: "win_layoutcalc", label: "Layout calc", type: "action" },
@@ -136,7 +136,7 @@ const RING_MENU_DATA = {
           ]
         },
         {
-          id: "win_info", label: "Info & tools", icon: "windows", type: "submenu",
+          id: "win_info", label: "Info & tools", type: "submenu",
           children: [
             { id: "win_dataset_info", label: "Dataset info", type: "action" },
             { id: "win_structure3d", label: "Molecular Structure", type: "action" },
@@ -182,7 +182,7 @@ const RING_MENU_DATA = {
         },
         { id: "edge_alpha_by_weight", label: "Alpha by weight", type: "toggle", value: false },
         {
-          id: "edge_advanced", label: "Advanced", icon: "edges", type: "submenu",
+          id: "edge_advanced", label: "Advanced", type: "submenu",
           children: [
             { id: "edge_alpha_min", label: "Min alpha", type: "slider", min: 0.01, max: 1, step: 0.01, value: 0.1, unit: "" },
             { id: "edge_alpha_max", label: "Max alpha", type: "slider", min: 0.01, max: 1, step: 0.01, value: 1, unit: "" },
@@ -212,7 +212,7 @@ const RING_MENU_DATA = {
         { id: "layout_next", label: "Next layout (l)", type: "action" },
         { id: "layout_prev", label: "Previous layout (Shift+L)", type: "action" },
         {
-          id: "layout_custom", label: "Custom layout", icon: "layout", type: "submenu",
+          id: "layout_custom", label: "Custom layout", type: "submenu",
           children: [
             { id: "custom_x", label: "X column", type: "dropdown", selected: "x", options: [{ id: "x", label: "x" }, { id: "score_n", label: "score_n" }, { id: "degree_n", label: "degree_n" }] },
             { id: "custom_y", label: "Y column", type: "dropdown", selected: "y", options: [{ id: "y", label: "y" }, { id: "score_n", label: "score_n" }, { id: "degree_n", label: "degree_n" }] },
@@ -234,7 +234,7 @@ const RING_MENU_DATA = {
         { id: "hl_node_size", label: "Highlight node size", type: "slider", min: 0, max: 4, step: 0.1, value: 1, unit: "x" },
         { id: "hl_glow", label: "Glow opacity", type: "slider", min: 0.2, max: 20, step: 0.1, value: 3.2, unit: "" },
         {
-          id: "hl_edges", label: "Edges", icon: "highlight", type: "submenu",
+          id: "hl_edges", label: "Edges", type: "submenu",
           children: [
             { id: "hl_edges_on", label: "Highlight edges", type: "toggle", value: false },
             { id: "hl_edge_width", label: "Edge width", type: "slider", min: 1, max: 5, step: 0.1, value: 1, unit: "x" },
@@ -252,7 +252,7 @@ const RING_MENU_DATA = {
           ]
         },
         {
-          id: "hl_bloom", label: "Bloom", icon: "highlight", type: "submenu",
+          id: "hl_bloom", label: "Bloom", type: "submenu",
           children: [
             {
               id: "bloom_mode", label: "Bloom", type: "dropdown", selected: "selection",
@@ -280,7 +280,7 @@ const RING_MENU_DATA = {
         { id: "resolution_scale", label: "Resolution scale", type: "slider", min: 0.5, max: 4, step: 0.01, value: 1, unit: "x" },
         { id: "show_stats", label: "Show stats", type: "toggle", value: false },
         {
-          id: "render_experiments", label: "Experiments (slow)", icon: "display", type: "submenu",
+          id: "render_experiments", label: "Experiments (slow)", type: "submenu",
           children: [
             { id: "frustum_cull_instances", label: "Frustum cull instances", type: "toggle", value: false },
             { id: "depth_sort", label: "Depth sort", type: "toggle", value: false },
