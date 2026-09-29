@@ -77,11 +77,19 @@ html, body {
 #hint strong { color: var(--accent); }
 #hint.hidden { opacity: 0; }
 
-#panel-title {
+#hud-left {
   position: fixed;
   left: 20px;
   top: 18px;
-  z-index: 6;
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  width: 380px;
+  pointer-events: none;
+}
+#panel-title {
   pointer-events: none;
   max-width: 380px;
 }
@@ -102,10 +110,6 @@ html, body {
 #icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 
 #config-panel {
-  position: fixed;
-  left: 20px;
-  top: 108px;
-  z-index: 9;
   pointer-events: auto;
   background: rgba(8, 14, 22, 0.78);
   border: 1px solid rgba(120, 220, 255, 0.18);
