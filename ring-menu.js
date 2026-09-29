@@ -35,6 +35,7 @@
   const HYSTERESIS = 12;
   const FAN_MIN = 64;    // narrowest a child fan is ever allowed to be (degrees)
   const FAN_MAX = 132;   // widest a child fan is ever allowed to be (degrees) — ~37% of a circle
+  const FAN_MAX_WIDE = 200; // rings with 9-10 children (asdf10k Subset/Select/Data) get a wider fan so labels stay legible
   const FAN_STEP = 26;   // desired angular room per child, before min/max clamping
   const SLIDER_SPAN = 130; // slider arc gauges use the same fan language as everything else
   const ICON_WEDGE = 27;
@@ -56,7 +57,7 @@
   const norm360 = (a) => { a %= 360; if (a < 0) a += 360; return a; };
   // Shortest signed angular distance from b to a, range (-180, 180].
   const signedDelta = (a, b) => ((a - b + 540) % 360) - 180;
-  const fanSpanFor = (n) => Math.min(FAN_MAX, Math.max(FAN_MIN, n * FAN_STEP));
+  const fanSpanFor = (n) => Math.min(n >= 9 ? FAN_MAX_WIDE : FAN_MAX, Math.max(FAN_MIN, n * FAN_STEP));
 
   function polar(cx, cy, r, angleDeg) {
     const rad = deg2rad(angleDeg - 90);
@@ -965,7 +966,8 @@
       toastTimer = setTimeout(() => toastEl.classList.remove("show"), 1700);
     }
 
-    const PANEL_IDS = ["master_volume", "brightness", "mouse_sensitivity", "quality_preset", "resolution", "language", "fullscreen", "vsync", "subtitles"];
+    // Representative asdf10k settings shown in the "live settings state" panel (ids from menu-data.js).
+    const PANEL_IDS = ["interaction_mode", "node_layout", "edge_cutoff", "edge_opacity", "hl_fade_others", "bloom_mode", "nav_mode", "dataset", "subset_isolate", "resolution_scale"];
     function renderState() {
       const fmt = (i) => {
         if (i.type === "slider") return formatSliderValue(i);
@@ -975,6 +977,7 @@
       };
       statePanel.innerHTML = PANEL_IDS
         .map((id) => findItemById(RING_MENU_DATA, id))
+        .filter((item) => item)
         .map((item) => `<div class="row"><span>${item.label}</span><span>${fmt(item)}</span></div>`)
         .join("");
     }

@@ -13,8 +13,9 @@ a proof of concept for a future VR settings menu. No build step — open
   gesture state machine is meant to carry over into a real WebXR build with
   the input source swapped out.
 - Every menu type a settings screen needs: nested categories, dropdowns,
-  toggles (checkboxes), continuous sliders, and a long alphabetical list with
-  windowed scrolling — see `menu-data.js`.
+  toggles (checkboxes), continuous sliders, actions, and a long alphabetical
+  list with windowed scrolling (the `list` type is still supported by the
+  engine; the asdf10k tree does not use it) — see `menu-data.js`.
 - Only the root ring spans the full circle. Every deeper ring fans out over a
   bounded arc centered on its parent's own angle, so reaching a child is a
   small nudge in the direction you're already pointing rather than a sweep
@@ -60,10 +61,13 @@ about 4 levels deep before errors climb past ~10%.
 - Zhao, S. et al. *Scale Independence in Marking Menus*.
   [academia.edu](https://www.academia.edu/22188827/Scale_Independence_in_Marking_Menus)
 
-**Applied here:** the sample data (`menu-data.js`) uses 8 top-level
-categories (Kurtenbach's sweet spot), keeps most branches to 2 levels deep,
-and allows exactly one branch (Graphics → Advanced) to go a 3rd level as a
-capability demo rather than the norm.
+**Applied here:** `menu-data.js` now carries the real controls of the asdf10k
+graph explorer (lil-gui folders, Settings window, window menu, functions menu,
+icon bar and keyboard commands): 10 top-level categories with at most 10 items
+per ring, most branches 2 levels deep, and a 3rd level only for genuine
+sub-topics (Windows groups, Edges → Advanced, Render → Experiments,
+Highlight → Edges/Bloom, Layout → Custom, Select → Relayout). The mapping from
+each item to the app control it drives is in `asdf10k/docs/menu-tree.md`.
 
 ### Why pie/radial beats a linear list for this use case
 
