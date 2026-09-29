@@ -141,9 +141,18 @@
     };
   }
 
+  // Decimals shown for a slider follow its step (0.01 -> 2 decimals), so the
+  // fractional settings of the real app (opacities, scales) read correctly.
+  function sliderDecimals(item) {
+    const step = item.step || 1;
+    if (step >= 1) return 0;
+    return Math.min(4, Math.ceil(-Math.log10(step)));
+  }
+
   function formatSliderValue(item) {
     if (item.labels) return item.labels[Math.round(item.value) - item.min];
-    return Math.round(item.value) + (item.unit || "");
+    const d = sliderDecimals(item);
+    return Number(item.value).toFixed(d) + (item.unit || "");
   }
 
   // Categories carry an explicit icon key (into the sprite in index.html);
@@ -672,7 +681,8 @@
       const delta = Math.max(-span / 2, Math.min(span / 2, signedDelta(angle, fanCenter)));
       const frac = (delta + span / 2) / span;
       const raw = item.min + frac * (item.max - item.min);
-      const stepped = Math.round(raw / item.step) * item.step;
+      const d = sliderDecimals(item);
+      const stepped = Number((Math.round(raw / item.step) * item.step).toFixed(d));
       const clamped = Math.max(item.min, Math.min(item.max, stepped));
       if (clamped !== item.value) {
         item.value = clamped;
